@@ -14,7 +14,7 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // routes
-app.get('/api/memberList', (req, res) => {
+app.get('/api/email/members', (req, res) => {
   mailchimp.get(`/lists/${list_id}/members`)
     .then(results => {
       res.send(results);
@@ -24,13 +24,15 @@ app.get('/api/memberList', (req, res) => {
     });
 });
 
-app.post('/sign-up', (req, res) => {
+app.post('/api/email/signup', (req, res) => {
+  console.log(req.body);
+  console.log(req.body.FIRSTNAME);
   mailchimp.post(`/lists/${list_id}/members`, {
     email_address: req.body.email_address,
     status: 'subscribed',
     'merge_fields': {
-      "FIRSTNAME": req.body.fn,
-      'LASTNAME': req.body.ln
+      "FIRSTNAME": req.body.firstName,
+      'LASTNAME': req.body.lastName
     }
   })
   .then(results => {
