@@ -44,6 +44,10 @@ app.post('/api/email/signup', (req, res) => {
 
 })
 
+app.get('/', (req, res) => {
+  res.status(200).json({ message: Welcome to the app });
+})
+
 const port = process.env.PORT || 9001;
 app.listen(port);
 
