@@ -106,7 +106,7 @@ const sendMail = (req, res) => {
   });
   
 const name = `${req.body.firstName} ${req.body.lastName}`;
-const senderEmail = req.body.senderEmailAddress;
+const senderEmail = req.body.senderEmail;
 const subject = req.body.subject;
 const message = req.body.message;
 
@@ -117,7 +117,9 @@ const message = req.body.message;
     text: 'TEST TEST',
     html: `<p>${message}</p>`
   };
-  
+
+  console.log('mailOptions', mailOptions);
+
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
