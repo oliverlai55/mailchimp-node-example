@@ -106,7 +106,7 @@ const sendMail = (req, res) => {
   });
   
 const name = `${req.body.firstName} ${req.body.lastName}`;
-const senderEmail = req.body.senderEmail;
+const senderEmail = req.body.email;
 const subject = req.body.subject;
 const message = req.body.message;
 
