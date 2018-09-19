@@ -112,7 +112,7 @@ const message = req.body.message;
 
   let mailOptions = {
     from: `${name} ${senderEmail}`,
-    to: 'oliverlai55@gmail.com',
+    to: 'olivertestimbrex1@gmail.com, support@imbrex.io',
     subject,
     text: 'TEST TEST',
     html: `<p>${message}</p>`
