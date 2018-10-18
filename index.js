@@ -20,19 +20,23 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
 // Dealing with CORS
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
   next();
 });
 
 // routes
 app.get('/api/email/members', (req, res) => {
-  mailchimp.get(`/lists/${list_id}/members`)
-    .then(results => {
+  mailchimp
+    .get(`/lists/${list_id}/members`)
+    .then((results) => {
       res.send(results);
     })
-    .catch(err => {
+    .catch((err) => {
       res.send(err);
     });
 });
@@ -70,9 +74,9 @@ app.post('/api/email/signup', async (req, res) => {
     const results = await mailchimp.post(`/lists/${list_id}/members`, {
       email_address: req.body.email,
       status: 'subscribed',
-      'merge_fields': {
-        "FIRSTNAME": req.body.firstName,
-        'LASTNAME': req.body.lastName
+      merge_fields: {
+        FIRSTNAME: req.body.firstName,
+        LASTNAME: req.body.lastName
       }
     });
 
@@ -80,19 +84,19 @@ app.post('/api/email/signup', async (req, res) => {
   } catch (err) {
     res.status(400).json(err);
   }
-})
+});
 
 // Contact endpoints processing email
 app.post('/api/email/contact', async (req, res) => {
   try {
     console.log('req body', req.body);
     sendMail(req, res);
-    res.status(200).json({ message: "nice" });
+    res.status(200).json({ message: 'nice' });
     // sendMail(req, res);
   } catch (err) {
     res.status(400).json(err);
   }
-})
+});
 
 const sendMail = (req, res) => {
   let transporter = nodeMailer.createTransport({
@@ -104,11 +108,11 @@ const sendMail = (req, res) => {
       pass: SGKEY
     }
   });
-  
-const name = `${req.body.firstName} ${req.body.lastName}`;
-const senderEmail = req.body.email;
-const subject = req.body.subject;
-const message = req.body.message;
+
+  const name = `${req.body.firstName} ${req.body.lastName}`;
+  const senderEmail = req.body.email;
+  const subject = req.body.subject;
+  const message = req.body.message;
 
   let mailOptions = {
     from: `${name} ${senderEmail}`,
@@ -123,15 +127,14 @@ const message = req.body.message;
   transporter.sendMail(mailOptions, (error, info) => {
     if (error) {
       console.log(error);
-      res.status(400).send({ success: false })
+      res.status(400).send({ success: false });
     } else {
       // console.log('success, heres the res', res);
       // console.log('info', info);
       res.status(200).send({ success: true });
     }
   });
-}
-
+};
 
 // SEND GRID
 // const msg = {
@@ -144,11 +147,10 @@ const message = req.body.message;
 // sgMail.send(msg);
 
 app.get('/', (req, res) => {
-  res.status(200).json({ message: "Welcome to the app" });
-})
+  res.status(200).json({ message: 'Welcome to the app' });
+});
 
 const port = process.env.PORT || 9001;
 app.listen(port);
 
 console.log(`express app listening on port ${port}`);
-
