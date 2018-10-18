@@ -74,10 +74,6 @@ app.post('/api/email/signup', async (req, res) => {
     const results = await mailchimp.post(`/lists/${list_id}/members`, {
       email_address: req.body.email,
       status: 'subscribed',
-      merge_fields: {
-        FIRSTNAME: req.body.firstName,
-        LASTNAME: req.body.lastName
-      }
     });
 
     res.send(results);
