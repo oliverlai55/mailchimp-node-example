@@ -141,7 +141,7 @@ const sendMail = (req, res) => {
   let mailOptions = {
     from: `${name} ${senderEmail}`,
     to: 'support@imbrex.io',
-    subject,
+    subject: 'Contact Imbrex From Imbrex.io',
     text: 'TEST TEST',
     html: `<p>${message}</p>`
   };
